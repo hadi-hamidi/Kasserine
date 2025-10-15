@@ -1,0 +1,265 @@
+.menu-sidebar-section {
+  position: relative;
+  z-index: 100;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+  position: fixed;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #c49a56, #b88a4a);
+  color: #ffffff;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(196, 154, 86, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.menu-toggle:hover {
+  background: linear-gradient(135deg, #b88a4a, #a67c3a);
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 12px 35px rgba(196, 154, 86, 0.4);
+}
+
+.menu-icon {
+  font-size: 1.2rem;
+}
+
+.menu-text {
+  font-size: 0.9rem;
+}
+
+/* Menu Sidebar */
+.menu-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 600px;
+  height: 100vh;
+  background: #1a1a1a;
+  z-index: 999;
+  overflow-y: auto;
+}
+
+.menu-content {
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.menu-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+/* Category Navigation */
+.category-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-bottom: 1.5rem;
+}
+
+.category-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.625rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.category-btn:hover {
+  background: rgba(196, 154, 86, 0.15);
+  border-color: rgba(196, 154, 86, 0.3);
+  color: #ffffff;
+}
+
+.category-btn.active {
+  background: rgba(196, 154, 86, 0.2);
+  border-color: #c49a56;
+  color: #c49a56;
+}
+
+/* Dishes Container */
+.dishes-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.dishes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Custom Scrollbar */
+.dishes-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dishes-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.dishes-container::-webkit-scrollbar-thumb {
+  background: #c49a56;
+  border-radius: 3px;
+}
+
+.dishes-container::-webkit-scrollbar-thumb:hover {
+  background: #b88a4a;
+}
+
+/* Overlay */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 998;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .menu-sidebar {
+    max-width: 100%;
+  }
+  
+  .menu-toggle {
+    right: 1.5rem;
+    padding: 0.875rem 1.25rem;
+  }
+  
+  .menu-text {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    right: 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .menu-content {
+    padding: 1.5rem;
+  }
+  
+  .menu-header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .category-nav {
+    gap: 0.5rem;
+  }
+  
+  .category-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
+  }
+  
+  .dishes-grid {
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-toggle {
+    right: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8rem;
+  }
+  
+  .menu-content {
+    padding: 1.25rem;
+  }
+  
+  .menu-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .category-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .dishes-grid {
+    gap: 1rem;
+  }
+}
+
+/* Animation for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .menu-toggle,
+  .category-btn,
+  .close-button {
+    transition: none;
+  }
+  
+  .menu-toggle:hover {
+    transform: translateY(-50%);
+  }
+  
+  .close-button:hover {
+    transform: none;
+  }
+}

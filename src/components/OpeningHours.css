@@ -1,0 +1,111 @@
+.opening-hours-section {
+  padding: 4rem 0;
+  background: #0f0f0f;
+}
+
+.opening-hours-card {
+  background: #161813;
+  border-radius: 12px;
+  padding: 2.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.opening-hours-title {
+  color: rgba(255, 252, 244, 0.6);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hours-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.day-name {
+  color: #fffcf4;
+  font-size: 1rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.dots-line {
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(232, 237, 237, 0.3) 0,
+    rgba(232, 237, 237, 0.3) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  min-width: 20px;
+}
+
+.hours-time {
+  color: #fffcf4;
+  font-size: 1rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.hours-row.closed .hours-time {
+  color: rgba(255, 252, 244, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .opening-hours-section {
+    padding: 3rem 0;
+  }
+  
+  .opening-hours-card {
+    padding: 2rem;
+    margin: 0 1rem;
+  }
+  
+  .opening-hours-title {
+    font-size: 0.8125rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hours-list {
+    gap: 0.875rem;
+  }
+  
+  .day-name,
+  .hours-time {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .opening-hours-card {
+    padding: 1.5rem;
+  }
+  
+  .opening-hours-title {
+    font-size: 0.75rem;
+  }
+  
+  .hours-row {
+    gap: 0.75rem;
+  }
+  
+  .day-name,
+  .hours-time {
+    font-size: 0.875rem;
+  }
+}

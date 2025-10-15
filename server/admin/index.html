@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم مطعم القصرين</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #c49a56, #b88a4a);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #b88a4a, #a67c3a);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #c49a56 0%, #b88a4a 50%, #a67c3a 100%);
+            color: white;
+            padding: 1.75rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .header h1 {
+            font-size: 1.85rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 0.75rem 1.75rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .tab {
+            padding: 1rem 1.75rem;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #6c757d;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .tab:hover {
+            background: #f8f9fa;
+            color: #c49a56;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #c49a56 0%, #b88a4a 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(196, 154, 86, 0.3);
+        }
+
+        /* Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(196, 154, 86, 0.1) 0%, transparent 100%);
+            border-radius: 0 0 0 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(196, 154, 86, 0.2);
+            border-color: #c49a56;
+        }
+
+        .stat-card h3 {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #c49a56 0%, #b88a4a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Table */
+        .data-table {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 2px solid #f0f0f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        th {
+            padding: 1.25rem 1rem;
+            text-align: right;
+            font-weight: 700;
+            color: #2c3e50;
+            border-bottom: 2px solid #dee2e6;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            color: #495057;
+        }
+
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 0.25rem;
+            font-family: 'Cairo', sans-serif;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #c49a56 0%, #b88a4a 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #b88a4a 0%, #a67c3a 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .status-pending { 
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe8a1 100%);
+            color: #856404;
+        }
+        .status-confirmed { 
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            color: #0c5460;
+        }
+        .status-preparing { 
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+        }
+        .status-delivered { 
+            background: linear-gradient(135deg, #d1e7dd 0%, #badbcc 100%);
+            color: #0f5132;
+        }
+        .status-cancelled { 
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+        }
+
+        /* Login Form */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #c49a56 0%, #b88a4a 50%, #a67c3a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            z-index: 1;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(135deg, #c49a56, #b88a4a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        #categoryIcon {
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover {
+            border-color: #c49a56;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #c49a56;
+            box-shadow: 0 0 0 4px rgba(196, 154, 86, 0.1);
+            background: white;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.5rem;
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1.125rem;
+            background: linear-gradient(135deg, #c49a56 0%, #b88a4a 50%, #a67c3a 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.125rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(196, 154, 86, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .login-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(196, 154, 86, 0.5);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Chat Section */
+        .chat-sessions {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1.5rem;
+            height: 600px;
+        }
+
+        .sessions-list {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .session-item {
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+
+        .session-item:hover,
+        .session-item.active {
+            background: #f8f8f8;
+            border-color: #c49a56;
+        }
+
+        .session-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .session-preview {
+            font-size: 0.8125rem;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .unread-badge {
+            background: #c49a56;
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .chat-area {
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages-admin {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: #f8f8f8;
+        }
+
+        .admin-input {
+            padding: 1rem;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .admin-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 0.9375rem;
+        }
+
+        .admin-input button {
+            padding: 0.75rem 1.5rem;
+            background: #c49a56;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .admin-input button:hover:not(:disabled) {
+            background: #b88a4a;
+            transform: translateY(-1px);
+        }
+
+        .admin-input button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .admin-input input:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .chat-header-admin {
+            padding: 1rem 1.5rem;
+            background: white;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header-admin strong {
+            font-size: 1.125rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <h2>🔐 تسجيل دخول الأدمن</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="login-btn">تسجيل الدخول</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="dashboard" class="hidden">
+        <div class="header">
+            <h1>📊 لوحة تحكم القصرين</h1>
+            <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+        </div>
+
+        <div class="container">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>الطلبات اليوم</h3>
+                    <div class="number" id="todayOrders">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>الحجوزات القادمة</h3>
+                    <div class="number" id="upcomingReservations">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>عناصر القائمة</h3>
+                    <div class="number" id="menuItems">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>رسائل جديدة</h3>
+                    <div class="number" id="newMessages">0</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('menu')">📋 القائمة</button>
+                <button class="tab" onclick="switchTab('categories')">🗂️ الأقسام</button>
+                <button class="tab" onclick="switchTab('orders')">🛒 الطلبات</button>
+                <button class="tab" onclick="switchTab('reservations')">📅 الحجوزات</button>
+                <button class="tab" onclick="switchTab('chat')">💬 الدردشة</button>
+            </div>
+
+            <!-- Menu Tab -->
+            <div id="menuTab" class="tab-content active">
+                <!-- Add New Item Button -->
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="btn btn-primary" onclick="showAddMenuItemModal()" style="font-size: 1rem; padding: 0.875rem 2rem;">
+                        ➕ إضافة طبق جديد
+                    </button>
+                </div>
+
+                <div class="data-table">
+                    <table id="menuTable">
+                        <thead>
+                            <tr>
+                                <th>الصورة</th>
+                                <th>الاسم</th>
+                                <th>الوصف</th>
+                                <th>الفئة</th>
+                                <th>السعر</th>
+                                <th>متاح</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="menuTableBody">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Categories Tab -->
+            <div id="categoriesTab" class="tab-content">
+                <!-- Add New Category Button -->
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="btn btn-primary" onclick="showAddCategoryModal()" style="font-size: 1rem; padding: 0.875rem 2rem;">
+                        ➕ إضافة قسم جديد
+                    </button>
+                </div>
+
+                <div class="data-table">
+                    <table id="categoriesTable">
+                        <thead>
+                            <tr>
+                                <th>الأيقونة</th>
+                                <th>اسم القسم</th>
+                                <th>المفتاح</th>
+                                <th>الترتيب</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoriesTableBody">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="ordersTab" class="tab-content">
+                <div class="data-table">
+                    <table id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>العميل</th>
+                                <th>الهاتف</th>
+                                <th>المجموع</th>
+                                <th>الحالة</th>
+                                <th>الوقت</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reservations Tab -->
+            <div id="reservationsTab" class="tab-content">
+                <div class="data-table">
+                    <table id="reservationsTable">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>الهاتف</th>
+                                <th>التاريخ</th>
+                                <th>الوقت</th>
+                                <th>عدد الضيوف</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reservationsTableBody">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Chat Tab -->
+            <div id="chatTab" class="tab-content">
+                <div class="chat-sessions">
+                    <div class="sessions-list" id="sessionsList">
+                        <h3>الدردشات النشطة</h3>
+                        <p style="color: #999; text-align: center; padding: 2rem;">لا توجد دردشات نشطة</p>
+                    </div>
+                    <div class="chat-area" id="chatArea">
+                        <!-- Chat Header -->
+                        <div id="chatHeader" class="chat-header-admin" style="display: none;">
+                            <div>
+                                <strong id="currentCustomerName">العميل</strong>
+                                <div style="font-size: 0.8125rem; color: #666;">🟢 متصل</div>
+                            </div>
+                            <button class="btn btn-danger" onclick="endChat()" style="font-size: 0.875rem; padding: 0.5rem 1rem;">
+                                ❌ إنهاء الدردشة
+                            </button>
+                        </div>
+
+                        <div class="chat-messages-admin" id="chatMessagesAdmin">
+                            <p style="text-align: center; color: #999; padding: 3rem;">اختر دردشة من القائمة للبدء</p>
+                        </div>
+                        <div class="admin-input">
+                            <input type="text" id="adminMessageInput" placeholder="اكتب رسالتك..." disabled>
+                            <button onclick="sendAdminMessage()" id="sendBtn" disabled>إرسال ➤</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Item Modal -->
+    <div id="menuItemModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">إضافة طبق جديد</h2>
+                <button class="modal-close" onclick="closeMenuItemModal()">✕</button>
+            </div>
+            <form id="menuItemForm" onsubmit="saveMenuItem(event)">
+                <input type="hidden" id="menuItemId">
+                
+                <div class="form-group">
+                    <label>اسم الطبق *</label>
+                    <input type="text" id="dishName" required placeholder="مثال: كباب حلبي">
+                </div>
+
+                <div class="form-group">
+                    <label>الوصف *</label>
+                    <textarea id="dishDescription" required rows="3" placeholder="وصف مفصل للطبق..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>السعر (ر.س) *</label>
+                        <input type="number" id="dishPrice" required min="0" step="0.01" placeholder="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label>الفئة *</label>
+                        <select id="dishCategory" required>
+                            <option value="">اختر الفئة</option>
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 0.75rem;">طريقة إضافة الصورة *</label>
+                    <div style="display: flex; gap: 1.5rem; margin-bottom: 1rem;">
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="radio" name="imageMethod" value="url" checked onchange="toggleImageMethod()">
+                            <span>🔗 رابط صورة (مفضل)</span>
+                        </label>
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="radio" name="imageMethod" value="upload" onchange="toggleImageMethod()">
+                            <span>📤 تحميل صورة</span>
+                        </label>
+                    </div>
+                    
+                    <div id="imageUrlSection">
+                        <input type="url" id="dishImageUrl" placeholder="https://example.com/image.jpg">
+                        <small style="color: #666; font-size: 0.875rem; display: block; margin-top: 0.5rem;">
+                            💡 يمكنك استخدام روابط من Unsplash أو أي موقع آخر
+                        </small>
+                    </div>
+                    
+                    <div id="imageUploadSection" style="display: none;">
+                        <input type="file" id="dishImageFile" accept="image/jpeg,image/jpg,image/png,image/webp" style="width: 100%; padding: 0.875rem; border: 2px dashed #ddd; border-radius: 8px; cursor: pointer;">
+                        <small style="color: #666; font-size: 0.875rem; display: block; margin-top: 0.5rem;">
+                            📌 الصيغ المدعومة: JPG, PNG, WEBP (حجم أقصى: 5MB)
+                        </small>
+                        <div id="imagePreview" style="margin-top: 1rem;"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="dishAvailable" checked>
+                        متاح للطلب
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="dishPopular">
+                        طبق مميز/شائع
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn" onclick="closeMenuItemModal()">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="categoryModalTitle">إضافة قسم جديد</h2>
+                <button class="modal-close" onclick="closeCategoryModal()">✕</button>
+            </div>
+            <form id="categoryForm" onsubmit="saveCategory(event)">
+                <input type="hidden" id="categoryId">
+                
+                <div class="form-group">
+                    <label>مفتاح القسم (بالإنجليزية) *</label>
+                    <input type="text" id="categoryKey" required placeholder="مثال: grills" pattern="[a-z0-9_-]+" title="حروف صغيرة وأرقام فقط">
+                    <small style="color: #666; font-size: 0.875rem;">يستخدم في النظام (حروف إنجليزية صغيرة فقط)</small>
+                </div>
+
+                <div class="form-group">
+                    <label>اسم القسم بالعربية *</label>
+                    <input type="text" id="categoryName" required placeholder="مثال: المشاوي">
+                </div>
+
+                <div class="form-group">
+                    <label>اسم القسم بالإنجليزية</label>
+                    <input type="text" id="categoryNameEn" placeholder="مثال: Grills">
+                </div>
+
+                <div class="form-group">
+                    <label>الوصف</label>
+                    <textarea id="categoryDescription" rows="2" placeholder="وصف القسم..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الأيقونة *</label>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <input type="text" id="categoryIcon" required placeholder="🍖" maxlength="10" style="flex: 1;">
+                        </div>
+                        <div class="emoji-picker">
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥗')">🥗</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍖')">🍖</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍛')">🍛</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍰')">🍰</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍕')">🍕</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍔')">🍔</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🌮')">🌮</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍝')">🍝</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍜')">🍜</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍱')">🍱</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍲')">🍲</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥘')">🥘</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍳')">🍳</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥙')">🥙</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🌯')">🌯</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥪')">🥪</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🌭')">🌭</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍗')">🍗</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥓')">🥓</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥩')">🥩</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍤')">🍤</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🦞')">🦞</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🦐')">🦐</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🐟')">🐟</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍣')">🍣</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍙')">🍙</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍚')">🍚</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥟')">🥟</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍢')">🍢</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍡')">🍡</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍧')">🍧</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍨')">🍨</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍦')">🍦</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥧')">🥧</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🧁')">🧁</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍮')">🍮</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🎂')">🎂</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍭')">🍭</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍬')">🍬</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍫')">🍫</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍿')">🍿</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍩')">🍩</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍪')">🍪</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥤')">🥤</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('☕')">☕</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍵')">🍵</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🧃')">🧃</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🥛')">🥛</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍷')">🍷</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍾')">🍾</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🧊')">🧊</button>
+                            <button type="button" class="emoji-btn" onclick="selectEmoji('🍽️')">🍽️</button>
+                        </div>
+                        <small style="color: #666; font-size: 0.875rem;">اختر emoji أو اكتب واحد</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>الترتيب *</label>
+                        <input type="number" id="categoryOrder" required min="0" placeholder="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="categoryActive" checked>
+                        قسم نشط
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn" onclick="closeCategoryModal()">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #c49a56 0%, #b88a4a 100%);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        #menuItemForm,
+        #categoryForm {
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        #menuItemForm textarea,
+        #categoryForm textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        #menuItemForm input[type="checkbox"],
+        #categoryForm input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            accent-color: #c49a56;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 0 0 20px 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .modal-actions .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-actions .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Emoji Picker */
+        .emoji-picker {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            gap: 0.5rem;
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .emoji-btn {
+            width: 45px;
+            height: 45px;
+            font-size: 1.75rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .emoji-btn:hover {
+            transform: scale(1.15);
+            border-color: #c49a56;
+            background: #fff8f0;
+            box-shadow: 0 4px 12px rgba(196, 154, 86, 0.3);
+            z-index: 1;
+        }
+
+        .emoji-btn:active {
+            transform: scale(1.05);
+        }
+
+        .emoji-btn.selected {
+            border-color: #c49a56;
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe8d0 100%);
+            box-shadow: 0 2px 8px rgba(196, 154, 86, 0.2);
+        }
+    </style>
+
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+    <script src="./admin.js"></script>
+</body>
+</html>

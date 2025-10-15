@@ -1,0 +1,258 @@
+.hero-split {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+}
+
+.hero-split::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 25% 25%, rgba(196, 154, 86, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, rgba(196, 154, 86, 0.06) 0%, transparent 40%);
+  pointer-events: none;
+  animation: heroGlow 15s ease-in-out infinite;
+}
+
+@keyframes heroGlow {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  padding: 2rem;
+}
+
+/* Hero Frames */
+.hero-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 20px;
+  margin: 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  transform-style: preserve-3d;
+}
+
+.left-frame {
+  margin-right: -4rem;
+  z-index: 2;
+}
+
+.right-frame {
+  margin-left: -4rem;
+  z-index: 1;
+}
+
+/* Hero Image Container */
+.hero-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 80vh;
+  overflow: hidden;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 15, 15, 0.3) 0%,
+    rgba(15, 15, 15, 0.1) 50%,
+    rgba(15, 15, 15, 0.4) 100%
+  );
+  pointer-events: none;
+}
+
+/* Floating Content */
+.floating-content {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  right: 2rem;
+  z-index: 10;
+}
+
+.testimonial-container {
+  max-width: 400px;
+}
+
+.booking-container {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  max-width: 300px;
+}
+
+/* Frame Title */
+.frame-title {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 5;
+}
+
+.frame-title h2 {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Navigation Dots */
+.hero-dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.75rem;
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #c49a56;
+  border-color: #c49a56;
+}
+
+.dot:hover {
+  background: #c49a56;
+  border-color: #c49a56;
+  transform: scale(1.2);
+}
+
+/* Copyright */
+.hero-copyright {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  z-index: 5;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .hero-frame {
+    margin: 1rem;
+  }
+  
+  .left-frame,
+  .right-frame {
+    margin: 1rem;
+  }
+  
+  .hero-image-container {
+    min-height: 60vh;
+  }
+  
+  .booking-container {
+    position: static;
+    margin-top: 2rem;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-container {
+    padding: 1rem;
+  }
+  
+  .hero-frame {
+    margin: 0.5rem;
+    border-radius: 15px;
+  }
+  
+  .hero-image-container {
+    min-height: 50vh;
+    border-radius: 15px;
+  }
+  
+  .floating-content {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+  }
+  
+  .frame-title {
+    top: 1rem;
+    left: 1rem;
+  }
+  
+  .frame-title h2 {
+    font-size: 1.25rem;
+  }
+  
+  .hero-dots {
+    bottom: 1rem;
+  }
+  
+  .hero-copyright {
+    bottom: 1rem;
+    left: 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Animation for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-image-container {
+    transform: none !important;
+  }
+  
+  .testimonial-container,
+  .booking-container {
+    transform: none !important;
+  }
+  
+  .hero-image {
+    transition: none;
+  }
+  
+  .dot {
+    transition: none;
+  }
+}
